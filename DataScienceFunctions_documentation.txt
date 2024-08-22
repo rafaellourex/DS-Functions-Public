@@ -1,0 +1,13 @@
+Folder containing multiple scripts with classes and functions that help in the processes of Statistical Analysis, Data Preparation and Pre-Processing and Data Modelling
+
+Available Scripts
+Classification_CV - contains functions that help perform Cross Validate Machine Learning Models for Classification problems
+DataPreparations - functions that help perform Ddata Preparation steps
+DataScalling - functions that focus on Data Scalling
+FeatureExtraction 
+FeatureSelection
+HypothesisTesting
+Probability
+Keras_Classification
+UnsipervisedLearning
+Visualizations_Functions
