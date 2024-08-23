@@ -75,8 +75,8 @@ def get_description(data):
     nr_rows = data.shape[0]
     nr_cols = data.shape[1]
 
-    num_cols = data.select_dtypes(exclude=np.object).columns
-    cat_cols = data.select_dtypes(include=np.object).columns
+    num_cols = data.select_dtypes(exclude=np.object_).columns
+    cat_cols = data.select_dtypes(include=np.object_).columns
 
     print(data.info())
     print(" ")
@@ -505,27 +505,31 @@ def knn_imput(data, k=5, weights="distance", metric="nan_euclidean"):
 
 
 def interactiveImputer(data, estimator=None, sample=10000):
-    """""" """
-    Receives
-        pandas df to imput missing values
-        estimator - model that will be used in the iteractive imputer 
-            if estimator==None then Decision Tree will be used as estimator
-    
-    """ """""" ""
+    """
+    Receives a pandas DataFrame to impute missing values.
 
-    from sklearn.experimental import enable_iterative_imputer
-    from sklearn.impute import SimpleImputer
+    Parameters:
+        - data: pandas DataFrame to impute missing values
+        - estimator: model that will be used in the iterative imputer
+                     if estimator is None, then Decision Tree will be used as the estimator
+        - sample: number of samples to use for fitting the imputer
+
+    Returns:
+        - data_return: pandas DataFrame with imputed values
+        - imputer: fitted imputer object
+    """
+    from sklearn.experimental import enable_iterative_impute
     from sklearn.impute import IterativeImputer
 
-    if estimator == None:
+    if estimator is None:
         from sklearn.tree import DecisionTreeRegressor
 
         estimator = DecisionTreeRegressor(random_state=0, max_depth=4)
 
     print(f"Base estimator: {estimator}")
 
-    metric_features = data.select_dtypes(exclude=np.object).columns
-    cat_features = data.select_dtypes(include=np.object).columns
+    metric_features = data.select_dtypes(include=[np.number, np.bool_]).columns
+    cat_features = data.select_dtypes(include=np.object_).columns
 
     imputer = IterativeImputer(estimator=estimator)
     imputer.fit(data.sample(sample)[metric_features])
@@ -534,7 +538,7 @@ def interactiveImputer(data, estimator=None, sample=10000):
 
     data_return = pd.concat([data_imputed, data[cat_features]], axis=1)
 
-    return (data_return, imputer)
+    return data_return, imputer
 
 
 def split_regressor(x, y):
@@ -552,9 +556,9 @@ def interactiveImputer_comparison(data, target, estimators, model):
     from sklearn.impute import IterativeImputer
 
     metric_features = (
-        data.drop(columns=f"{target}").select_dtypes(exclude=np.object).columns
+        data.drop(columns=f"{target}").select_dtypes(exclude=np.object_).columns
     )
-    cat_features = data.select_dtypes(include=np.object).columns
+    cat_features = data.select_dtypes(include=np.object_).columns
     scores_train = []
     scores_val = []
     models = []
