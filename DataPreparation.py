@@ -518,7 +518,7 @@ def interactiveImputer(data, estimator=None, sample=10000):
         - data_return: pandas DataFrame with imputed values
         - imputer: fitted imputer object
     """
-    from sklearn.experimental import enable_iterative_impute
+    from sklearn.experimental import enable_iterative_imputer
     from sklearn.impute import IterativeImputer
 
     if estimator is None:
